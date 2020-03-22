@@ -1,9 +1,9 @@
 # pyqbit
-
+Quantum bit and the usual gates in numeric forms straight from the Wikipedia.
 ## Circuit
 
-    Unresponsible and misleading circuit representation which hides the essential details and can not simulate the 
-    quantum catalystic behaviour needed by the quantum inteference.
+    Unresponsible and misleading circuit representation which hides the essential details 
+    and can not simulate the quantum catalystic behaviour needed by the quantum inteference.
 
     >>> I, O, C, G, CG = Circuit().operators()
 
@@ -44,7 +44,9 @@
     True
 
     
-## Zero
+## Quantum bit definitions
+
+### Zero
 Qubit that evaluates as zero every single time
 
     >>> Zero()
@@ -56,7 +58,7 @@ Qubit that evaluates as zero every single time
     False
 
     
-## One
+### One
 Qubit that evaluates as one every single time
 
     >>> One()
@@ -68,7 +70,7 @@ Qubit that evaluates as one every single time
     True
     
     
-## Plus
+### Plus
 Qubit that evaluates as one and zero evenly
 
     >>> Plus()
@@ -78,7 +80,7 @@ Qubit that evaluates as one and zero evenly
            [0.70710678]])
     
     
-## Minus
+### Minus
 Qubit that evaluates as one and zero evenly
 
     >>> Minus()
@@ -88,13 +90,13 @@ Qubit that evaluates as one and zero evenly
            [-0.70710678]])
     
     
-## Measure
+### Measure
 
     >>> isinstance(Measure(), Measure)
     True
 
     
-## Combine
+### Combine
 Use Kronecker product of two arrays to combine qubits.
 
     >>> Combine(Zero()(),Zero()())
@@ -114,7 +116,9 @@ Use Kronecker product of two arrays to combine qubits.
            [0]])
 
     
-## Identity
+## Quantum gates
+
+### Identity
 Identity gate
     
     >>> Identity()
@@ -124,7 +128,7 @@ Identity gate
            [0, 1]])
 
     
-## H
+### H
 Hadamard gate
 
     >>> H()
@@ -134,7 +138,7 @@ Hadamard gate
            [ 0.70710678, -0.70710678]])
 
     
-## PauliX
+### PauliX
 Pauli X gate
 
     >>> PauliX()
@@ -144,7 +148,7 @@ Pauli X gate
            [1, 0]])
 
     
-## PauliY
+### PauliY
 Pauli Y gate
 
     >>> PauliY()
@@ -154,7 +158,7 @@ Pauli Y gate
            [ 0.+1.j,  0.+0.j]])
 
     
-## PauliZ
+### PauliZ
 Pauli Z gate
 
     >>> PauliZ()
@@ -164,7 +168,7 @@ Pauli Z gate
            [ 0, -1]])
 
     
-## Phase
+### Phase
 Phase (S, P) gate
 
     >>> Phase()
@@ -174,7 +178,7 @@ Phase (S, P) gate
            [0.+0.j, 0.+1.j]])
 
     
-## R
+### R
 R is the custom phase shift gate
 
     >>> from math import pi
@@ -185,7 +189,7 @@ R is the custom phase shift gate
            [0.        +0.j        , 0.70710678+0.70710678j]])
 
     
-## CNOT
+### CNOT
 CNOT is the Controlled Not gate (CX)
 
     >>> CNOT()
@@ -197,7 +201,7 @@ CNOT is the Controlled Not gate (CX)
            [0, 0, 1, 0]])
 
     
-## CPauliZ
+### CPauliZ
 CPauliZ is the Controlled Pauli Z gate (CZ)
 
     >>> CPauliZ()
@@ -209,7 +213,7 @@ CPauliZ is the Controlled Pauli Z gate (CZ)
            [ 0,  0,  0, -1]])
 
     
-## SWAP
+### SWAP
 SWAP is the qbit swap gate
 
     >>> SWAP()

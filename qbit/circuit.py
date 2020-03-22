@@ -12,8 +12,8 @@ from .qbit import One, Zero, Plus, Minus, Measure
 
 class Circuit:
     """
-    Unresponsible and misleading circuit representation which hides the essential details and can not simulate the 
-    quantum catalystic behaviour needed by the quantum inteference.
+    Unresponsible and misleading circuit representation which hides the essential details 
+    and can not simulate the quantum catalystic behaviour needed by the quantum inteference.
 
     >>> I, O, C, G, CG = Circuit().operators()
 
