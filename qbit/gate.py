@@ -6,6 +6,10 @@
 import numpy as np
 from math import pi, e
 
+"""
+Quatum gates from https://en.wikipedia.org/wiki/Quantum_logic_gate
+"""
+
 class Identity():
     """
     Identity gate

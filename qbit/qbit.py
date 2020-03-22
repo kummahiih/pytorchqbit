@@ -7,9 +7,8 @@ import numpy as np
 import random
 
 """
-Representation of single qubit basic states and operations for self study
+Representation of single qubit basic states
 """
-
 
 
 
