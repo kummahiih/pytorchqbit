@@ -17,14 +17,16 @@ if __name__ == '__main__':
         'Measure': qbit.Measure,
         'Combine': qbit.Combine,
         'Circuit': qbit.Circuit,
+        'Identity': qbit.Identity,
         'H': qbit.H,
         'PauliX': qbit.PauliX,
         'PauliY': qbit.PauliY,
         'PauliZ': qbit.PauliZ,
         'Phase':  qbit.Phase,
         'R': qbit.R,
-        'Identity': qbit.Identity
-
+        'CNOT': qbit.CNOT,
+        'CPauliZ': qbit.CPauliZ,
+        'SWAP': qbit.SWAP
     }
     
     doctest.testfile(filename="qbit.py", module_relative=True, package=qbit, globs=globs)
