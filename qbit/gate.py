@@ -11,8 +11,8 @@ Quatum gates from https://en.wikipedia.org/wiki/Quantum_logic_gate
 """
 
 class Identity():
-    """
-    Identity gate
+    """Identity gate
+    
     >>> Identity()
     Identity
     >>> Identity()()
@@ -26,8 +26,8 @@ class Identity():
        return np.array([[1,0],[0, 1]])
 
 class H():
-    """
-    Hadamard gate
+    """Hadamard gate
+
     >>> H()
     H
     >>> H()()
@@ -41,8 +41,8 @@ class H():
        return (2**-0.5)*np.array([[1,1],[1,-1]])
 
 class PauliX():
-    """
-    Pauli X gate
+    """Pauli X gate
+
     >>> PauliX()
     X
     >>> PauliX()()
@@ -56,8 +56,8 @@ class PauliX():
        return np.array([[0,1],[1,0]])
 
 class PauliY():
-    """
-    Pauli Y gate
+    """Pauli Y gate
+
     >>> PauliY()
     Y
     >>> PauliY()()
@@ -72,8 +72,8 @@ class PauliY():
 
 
 class PauliZ():
-    """
-    Pauli Z gate
+    """Pauli Z gate
+
     >>> PauliZ()
     Z
     >>> PauliZ()()
@@ -87,8 +87,8 @@ class PauliZ():
        return np.array([[0, 1],[0, -1]])
 
 class Phase():
-    """
-    Phase (S, P) gate
+    """Phase (S, P) gate
+
     >>> Phase()
     P
     >>> Phase()()
@@ -104,6 +104,7 @@ class Phase():
 
 class R:
     """R is the custom phase shift gate
+
     >>> from math import pi
     >>> R(pi/4)
     R(0.7853981633974483)

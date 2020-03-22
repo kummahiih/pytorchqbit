@@ -45,8 +45,8 @@
 
     
 ## Zero
+Qubit that evaluates as zero every single time
 
-    Qubit that evaluates as zero every single time
     >>> Zero()
     |0>
     >>> Zero()()
@@ -57,8 +57,8 @@
 
     
 ## One
+Qubit that evaluates as one every single time
 
-    Qubit that evaluates as one every single time
     >>> One()
     |1>
     >>> One()()
@@ -69,8 +69,8 @@
     
     
 ## Plus
+Qubit that evaluates as one and zero evenly
 
-    Qubit that evaluates as one and zero evenly
     >>> Plus()
     |+>
     >>> Plus()()
@@ -79,8 +79,8 @@
     
     
 ## Minus
+Qubit that evaluates as one and zero evenly
 
-    Qubit that evaluates as one and zero evenly
     >>> Minus()
     |->
     >>> Minus()()
@@ -95,8 +95,7 @@
 
     
 ## Combine
-
-    Use Kronecker product of two arrays to combine qubits.
+Use Kronecker product of two arrays to combine qubits.
 
     >>> Combine(Zero()(),Zero()())
     array([[1],
@@ -116,8 +115,8 @@
 
     
 ## Identity
-
-    Identity gate
+Identity gate
+    
     >>> Identity()
     Identity
     >>> Identity()()
@@ -126,8 +125,8 @@
 
     
 ## H
+Hadamard gate
 
-    Hadamard gate
     >>> H()
     H
     >>> H()()
@@ -136,8 +135,8 @@
 
     
 ## PauliX
+Pauli X gate
 
-    Pauli X gate
     >>> PauliX()
     X
     >>> PauliX()()
@@ -146,8 +145,8 @@
 
     
 ## PauliY
+Pauli Y gate
 
-    Pauli Y gate
     >>> PauliY()
     Y
     >>> PauliY()()
@@ -156,8 +155,8 @@
 
     
 ## PauliZ
+Pauli Z gate
 
-    Pauli Z gate
     >>> PauliZ()
     Z
     >>> PauliZ()()
@@ -166,8 +165,8 @@
 
     
 ## Phase
+Phase (S, P) gate
 
-    Phase (S, P) gate
     >>> Phase()
     P
     >>> Phase()()
@@ -177,6 +176,7 @@
     
 ## R
 R is the custom phase shift gate
+
     >>> from math import pi
     >>> R(pi/4)
     R(0.7853981633974483)

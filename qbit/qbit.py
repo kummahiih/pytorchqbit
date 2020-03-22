@@ -13,8 +13,8 @@ Representation of single qubit basic states
 
 
 class Zero():
-    """
-    Qubit that evaluates as zero every single time
+    """Qubit that evaluates as zero every single time
+
     >>> Zero()
     |0>
     >>> Zero()()
@@ -30,8 +30,8 @@ class Zero():
         return np.array([[1], [0]])
 
 class One():
-    """
-    Qubit that evaluates as one every single time
+    """Qubit that evaluates as one every single time
+
     >>> One()
     |1>
     >>> One()()
@@ -47,8 +47,8 @@ class One():
         return np.array([[0], [1]])
 
 class Plus():
-    """
-    Qubit that evaluates as one and zero evenly
+    """Qubit that evaluates as one and zero evenly
+
     >>> Plus()
     |+>
     >>> Plus()()
@@ -62,8 +62,8 @@ class Plus():
         return (2**-0.5) *(Zero()() + One()())
 
 class Minus():
-    """
-    Qubit that evaluates as one and zero evenly
+    """Qubit that evaluates as one and zero evenly
+
     >>> Minus()
     |->
     >>> Minus()()
@@ -99,8 +99,7 @@ class Measure:
         return False
 
 def Combine(a, b):
-    """
-    Use Kronecker product of two arrays to combine qubits.
+    """Use Kronecker product of two arrays to combine qubits.
 
     >>> Combine(Zero()(),Zero()())
     array([[1],
