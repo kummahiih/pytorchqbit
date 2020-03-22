@@ -15,10 +15,14 @@ if __name__ == '__main__':
         'Plus': qbit.Plus,
         'Minus': qbit.Minus,
         'Measure': qbit.Measure,
+        'Combine': qbit.Combine,
         'Circuit': qbit.Circuit,
         'H': qbit.H,
         'PauliX': qbit.PauliX,
+        'PauliY': qbit.PauliY,
         'PauliZ': qbit.PauliZ,
+        'Phase':  qbit.Phase,
+        'R': qbit.R,
         'Identity': qbit.Identity
 
     }

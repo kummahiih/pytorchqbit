@@ -4,10 +4,6 @@
 """
 
 
-from .qbit import Zero, One, Plus, Minus, Measure
-from .gate import Identity, H, PauliX, PauliZ
-from .circuit import Circuit
-
 __all__ = [
     'Zero'    ,
     'One'     ,
@@ -17,5 +13,13 @@ __all__ = [
     'Circuit' ,
     'H'       ,
     'PauliX'  ,
+    'PauliY'  ,
     'PauliZ'  ,
-    'Identity']
+    'Phase'   ,
+    'R'       ,
+    'Identity',
+    'Combine']
+
+from .qbit import Zero, One, Plus, Minus, Measure, Combine
+from .gate import Identity, H, PauliX, PauliY, PauliZ, Phase, R
+from .circuit import Circuit

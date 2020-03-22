@@ -83,3 +83,25 @@ def Minus() -> np.array:
     """
     return (2**-0.5) *(Zero() - One())
 
+def Combine(a, b):
+    """
+    Use Kronecker product of two arrays to combine qubits.
+
+    >>> Combine(Zero(),Zero())
+    array([[1],
+           [0],
+           [0],
+           [0]])
+
+    >>> Combine(One(), Combine(Zero(),Zero()))
+    array([[0],
+           [0],
+           [0],
+           [0],
+           [1],
+           [0],
+           [0],
+           [0]])
+
+    """
+    return np.kron(a, b)
