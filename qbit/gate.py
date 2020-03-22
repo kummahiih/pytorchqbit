@@ -5,87 +5,97 @@
 
 import numpy as np
 from math import pi, e
-from .reprwrapper import _withrepr
 
-@_withrepr(lambda x: "Identity")
-def Identity() -> np.array:
+class Identity():
     """
     Identity gate
-    >>> Identity
-    Identity
     >>> Identity()
+    Identity
+    >>> Identity()()
     array([[1, 0],
            [0, 1]])
 
     """
-    return np.array([[1,0],[0, 1]])
+    def __init__(self): pass
+    def __repr__(self): return 'Identity'
+    def __call__(self) -> np.array:
+       return np.array([[1,0],[0, 1]])
 
-@_withrepr(lambda x: "H")
-def H() -> np.array:
+class H():
     """
     Hadamard gate
-    >>> H
-    H
     >>> H()
+    H
+    >>> H()()
     array([[ 0.70710678,  0.70710678],
            [ 0.70710678, -0.70710678]])
 
     """
-    return (2**-0.5)*np.array([[1,1],[1,-1]])
+    def __init__(self): pass
+    def __repr__(self): return 'H'
+    def __call__(self) -> np.array:
+       return (2**-0.5)*np.array([[1,1],[1,-1]])
 
-@_withrepr(lambda x: "X")
-def PauliX() -> np.array:
+class PauliX():
     """
     Pauli X gate
-    >>> PauliX
-    X
     >>> PauliX()
+    X
+    >>> PauliX()()
     array([[0, 1],
            [1, 0]])
 
     """
-    return np.array([[0,1],[1,0]])
+    def __init__(self): pass
+    def __repr__(self): return 'X'
+    def __call__(self) -> np.array:
+       return np.array([[0,1],[1,0]])
 
-@_withrepr(lambda x: "Y")
-def PauliY() -> np.array:
+class PauliY():
     """
     Pauli Y gate
-    >>> PauliY
-    Y
     >>> PauliY()
+    Y
+    >>> PauliY()()
     array([[ 0.+0.j, -0.-1.j],
            [ 0.+1.j,  0.+0.j]])
 
     """
-    return np.array([[0, -1j],[1j, 0]])
+    def __init__(self): pass
+    def __repr__(self): return 'Y'
+    def __call__(self) -> np.array:
+       return np.array([[0, -1j],[1j, 0]])
 
 
-@_withrepr(lambda x: "Z")
-def PauliZ() -> np.array:
+class PauliZ():
     """
     Pauli Z gate
-    >>> PauliZ
-    Z
     >>> PauliZ()
+    Z
+    >>> PauliZ()()
     array([[ 0,  1],
            [ 0, -1]])
 
     """
-    return np.array([[0, 1],[0, -1]])
+    def __init__(self): pass
+    def __repr__(self): return 'Z'
+    def __call__(self) -> np.array:
+       return np.array([[0, 1],[0, -1]])
 
-
-@_withrepr(lambda x: "P")
-def Phase() -> np.array:
+class Phase():
     """
     Phase (S, P) gate
-    >>> Phase
-    P
     >>> Phase()
+    P
+    >>> Phase()()
     array([[1.+0.j, 0.+0.j],
            [0.+0.j, 0.+1.j]])
 
     """
-    return np.array([[1, 0],[0, 0+1j]])
+    def __init__(self): pass
+    def __repr__(self): return 'P'
+    def __call__(self) -> np.array: 
+       return np.array([[1, 0],[0, 0+1j]])
 
 
 class R:
@@ -101,8 +111,8 @@ class R:
     def __init__(self, phase_shift):
        self._phase_shift = phase_shift
     def __repr__(self): return 'R(%s)'%self._phase_shift
-    def __call__(self):
-           return np.array([[1, 0],[0, e**((0+1j)*self._phase_shift)]])
+    def __call__(self) -> np.array:
+       return np.array([[1, 0],[0, e**((0+1j)*self._phase_shift)]])
 
 class CNOT:
     """CNOT is the Controlled Not gate (CX)
@@ -118,12 +128,12 @@ class CNOT:
     """
     def __init__(self): pass
     def __repr__(self): return 'CX'
-    def __call__(self):
-           return np.array([
-                  [ 1, 0, 0, 0],
-                  [ 0, 1, 0, 0],
-                  [ 0, 0, 0, 1],
-                  [ 0, 0, 1, 0]])
+    def __call__(self) -> np.array:
+       return np.array([
+              [ 1, 0, 0, 0],
+              [ 0, 1, 0, 0],
+              [ 0, 0, 0, 1],
+              [ 0, 0, 1, 0]])
 
 class CPauliZ:
     """CPauliZ is the Controlled Pauli Z gate (CZ)
@@ -140,11 +150,11 @@ class CPauliZ:
     def __init__(self): pass
     def __repr__(self): return 'CZ'
     def __call__(self):
-           return np.array([
-                  [ 1, 0, 0,  0],
-                  [ 0, 1, 0,  0],
-                  [ 0, 0, 1,  0],
-                  [ 0, 0, 0, -1]])
+       return np.array([
+              [ 1, 0, 0,  0],
+              [ 0, 1, 0,  0],
+              [ 0, 0, 1,  0],
+              [ 0, 0, 0, -1]])
 
 class SWAP:
     """SWAP is the qbit swap gate
@@ -160,9 +170,9 @@ class SWAP:
     """
     def __init__(self): pass
     def __repr__(self): return 'SWAP'
-    def __call__(self):
-           return np.array([
-                  [ 1, 0, 0, 0],
-                  [ 0, 0, 1, 0],
-                  [ 0, 1, 0, 0],
-                  [ 0, 0, 0, 1]])
+    def __call__(self) -> np.array:
+       return np.array([
+              [ 1, 0, 0, 0],
+              [ 0, 0, 1, 0],
+              [ 0, 1, 0, 0],
+              [ 0, 0, 0, 1]])

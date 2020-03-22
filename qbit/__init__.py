@@ -1,6 +1,8 @@
 """
    @copyright: 2020 by Pauli Rikula
    @license: MIT <http://www.opensource.org/licenses/mit-license.php>
+
+   Numeric representations of quantum bits and gates
 """
 
 
