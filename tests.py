@@ -16,7 +16,6 @@ if __name__ == '__main__':
         'Minus': qbit.Minus,
         'Measure': qbit.Measure,
         'Combine': qbit.Combine,
-        'Circuit': qbit.Circuit,
         'Identity': qbit.Identity,
         'H': qbit.H,
         'PauliX': qbit.PauliX,
@@ -26,10 +25,10 @@ if __name__ == '__main__':
         'R': qbit.R,
         'CNOT': qbit.CNOT,
         'CPauliZ': qbit.CPauliZ,
-        'SWAP': qbit.SWAP
+        'SWAP': qbit.SWAP,
+        'Apply': qbit.Apply
     }
     
     doctest.testfile(filename="qbit.py", module_relative=True, package=qbit, globs=globs)
     doctest.testfile(filename="gate.py", module_relative=True, package=qbit, globs=globs)
-    doctest.testfile(filename="circuit.py", module_relative=True, package=qbit, globs=globs)
     doctest.testfile(filename="__init__.py", module_relative=True, package=qbit, globs=globs)

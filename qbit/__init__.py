@@ -14,7 +14,6 @@ __all__ = [
    'Plus',
    'Minus',
    'Measure',
-   'Circuit',
    'H',
    'PauliX',
    'PauliY',
@@ -24,9 +23,9 @@ __all__ = [
    'CNOT',
    'CPauliZ',
    'SWAP',
+   'Apply',
    'Identity',
    'Combine']
 
 from .qbit import Zero, One, Plus, Minus, Measure, Combine
-from .gate import Identity, H, PauliX, PauliY, PauliZ, Phase, R, CNOT, CPauliZ, SWAP
-from .circuit import Circuit
+from .gate import Identity, H, PauliX, PauliY, PauliZ, Phase, R, CNOT, CPauliZ, SWAP, Apply

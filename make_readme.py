@@ -2,7 +2,7 @@ import qbit
 
 README =  "# pyqbit" + "\n"
 README += "Quantum bit and the usual gates in numeric forms straight from the Wikipedia."
-README += '\n## Circuit'+ "\n" + qbit.Circuit.__doc__
+README += '\n## Apply'+ "\n" + qbit.Apply.__doc__
 README += '\n## Quantum bit definitions\n'
 README += '\n### Zero'+ "\n" + qbit.Zero.__doc__
 README += '\n### One'+ "\n" + qbit.One.__doc__

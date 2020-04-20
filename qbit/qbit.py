@@ -12,16 +12,16 @@ Representation of single qubit basic states
 
 
 
-class Zero():
+class _Zero():
     """Qubit that evaluates as zero every single time
 
-    >>> Zero()
+    >>> Zero
     |0>
-    >>> Zero()()
+    >>> Zero()
     array([[1],
            [0]])
-    >>> Measure().MeasureOne(Zero()())
-    False
+    >>> Measure.One(Zero())
+    0
 
     """
     def __init__(self): pass
@@ -29,16 +29,18 @@ class Zero():
     def __call__(self) -> np.array:
         return np.array([[1], [0]])
 
-class One():
+Zero = _Zero()
+
+class _One():
     """Qubit that evaluates as one every single time
 
-    >>> One()
+    >>> One
     |1>
-    >>> One()()
+    >>> One()
     array([[0],
            [1]])
-    >>> Measure().MeasureOne(One()())
-    True
+    >>> Measure.One(One())
+    1
     
     """
     def __init__(self): pass
@@ -46,12 +48,14 @@ class One():
     def __call__(self) -> np.array:
         return np.array([[0], [1]])
 
-class Plus():
+One = _One()
+
+class _Plus():
     """Qubit that evaluates as one and zero evenly
 
-    >>> Plus()
+    >>> Plus
     |+>
-    >>> Plus()()
+    >>> Plus()
     array([[0.70710678],
            [0.70710678]])
     
@@ -59,14 +63,16 @@ class Plus():
     def __init__(self): pass
     def __repr__(self): return '|+>'
     def __call__(self) -> np.array:
-        return (2**-0.5) *(Zero()() + One()())
+        return (2**-0.5) *(Zero() + One())
 
-class Minus():
+Plus = _Plus()
+
+class _Minus():
     """Qubit that evaluates as one and zero evenly
 
-    >>> Minus()
+    >>> Minus
     |->
-    >>> Minus()()
+    >>> Minus()
     array([[ 0.70710678],
            [-0.70710678]])
     
@@ -74,7 +80,9 @@ class Minus():
     def __init__(self): pass
     def __repr__(self): return '|->'
     def __call__(self) -> np.array:
-        return (2**-0.5) *(Zero()() - One()())
+        return (2**-0.5) *(Zero() - One())
+
+Minus = _Minus()
 
 def a(array: np.array) -> complex:
     """a**2 is the probability for qbit == False"""
@@ -84,30 +92,31 @@ def b(array: np.array) -> complex:
     """b**2 is the probability for qbit == True"""
     return array[1][0] + 0j
 
-class Measure:
-    """
-    >>> isinstance(Measure(), Measure)
-    True
+class _Measure:
+    """Simulates the measure process of the qubit
+
+    >>> Measure.One(One())
+    1
 
     """
     def __init__(self): pass
     def __repr__(self): return 'M'
-    def MeasureOne(self, q_bit: np.array) -> bool:
-        """Measures if one dimensional qbit value is True this time"""
-        if random.random() < b(q_bit)**2:
-            return True
-        return False
+    def One(self, q_bit: np.array) -> int:
+        """Gets a random value according the quantum state weights"""
+        return random.choices(range(len(q_bit)), q_bit * q_bit, k=1)[0]
+
+Measure = _Measure()
 
 def Combine(a, b):
     """Use Kronecker product of two arrays to combine qubits.
 
-    >>> Combine(Zero()(),Zero()())
+    >>> Combine(Zero(),Zero())
     array([[1],
            [0],
            [0],
            [0]])
-
-    >>> Combine(One()(), Combine(Zero()(),Zero()()))
+    
+    >>> Combine(One(), Combine(Zero(),Zero()))
     array([[0],
            [0],
            [0],
@@ -116,6 +125,14 @@ def Combine(a, b):
            [0],
            [0],
            [0]])
+
+Each row represents the probability of getting it's index's value as a result
+
+    >>> Measure.One(Combine(Zero(),Zero()))
+    0
+
+    >>> Measure.One( Combine(One(), Combine(Zero(),Zero())) )
+    4
 
     """
     return np.kron(a, b)

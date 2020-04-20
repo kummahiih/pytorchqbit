@@ -10,12 +10,12 @@ from math import pi, e
 Quatum gates from https://en.wikipedia.org/wiki/Quantum_logic_gate
 """
 
-class Identity():
+class _Identity():
     """Identity gate
     
-    >>> Identity()
+    >>> Identity
     Identity
-    >>> Identity()()
+    >>> Identity()
     array([[1, 0],
            [0, 1]])
 
@@ -25,12 +25,14 @@ class Identity():
     def __call__(self) -> np.array:
        return np.array([[1,0],[0, 1]])
 
-class H():
+Identity = _Identity()
+
+class _H():
     """Hadamard gate
 
-    >>> H()
+    >>> H
     H
-    >>> H()()
+    >>> H()
     array([[ 0.70710678,  0.70710678],
            [ 0.70710678, -0.70710678]])
 
@@ -40,12 +42,14 @@ class H():
     def __call__(self) -> np.array:
        return (2**-0.5)*np.array([[1,1],[1,-1]])
 
-class PauliX():
+H = _H()
+
+class _PauliX():
     """Pauli X gate
 
-    >>> PauliX()
+    >>> PauliX
     X
-    >>> PauliX()()
+    >>> PauliX()
     array([[0, 1],
            [1, 0]])
 
@@ -55,12 +59,14 @@ class PauliX():
     def __call__(self) -> np.array:
        return np.array([[0,1],[1,0]])
 
-class PauliY():
+PauliX =  _PauliX()
+
+class _PauliY():
     """Pauli Y gate
 
-    >>> PauliY()
+    >>> PauliY
     Y
-    >>> PauliY()()
+    >>> PauliY()
     array([[ 0.+0.j, -0.-1.j],
            [ 0.+1.j,  0.+0.j]])
 
@@ -70,13 +76,14 @@ class PauliY():
     def __call__(self) -> np.array:
        return np.array([[0, -1j],[1j, 0]])
 
+PauliY = _PauliY()
 
-class PauliZ():
+class _PauliZ():
     """Pauli Z gate
 
-    >>> PauliZ()
+    >>> PauliZ
     Z
-    >>> PauliZ()()
+    >>> PauliZ()
     array([[ 0,  1],
            [ 0, -1]])
 
@@ -86,12 +93,14 @@ class PauliZ():
     def __call__(self) -> np.array:
        return np.array([[0, 1],[0, -1]])
 
-class Phase():
+PauliZ = _PauliZ()
+
+class _Phase():
     """Phase (S, P) gate
 
-    >>> Phase()
+    >>> Phase
     P
-    >>> Phase()()
+    >>> Phase()
     array([[1.+0.j, 0.+0.j],
            [0.+0.j, 0.+1.j]])
 
@@ -101,6 +110,7 @@ class Phase():
     def __call__(self) -> np.array: 
        return np.array([[1, 0],[0, 0+1j]])
 
+Phase = _Phase()
 
 class R:
     """R is the custom phase shift gate
@@ -119,12 +129,12 @@ class R:
     def __call__(self) -> np.array:
        return np.array([[1, 0],[0, e**((0+1j)*self._phase_shift)]])
 
-class CNOT:
+class _CNOT:
     """CNOT is the Controlled Not gate (CX)
 
-    >>> CNOT()
+    >>> CNOT
     CX
-    >>> CNOT()()
+    >>> CNOT()
     array([[1, 0, 0, 0],
            [0, 1, 0, 0],
            [0, 0, 0, 1],
@@ -140,12 +150,14 @@ class CNOT:
               [ 0, 0, 0, 1],
               [ 0, 0, 1, 0]])
 
-class CPauliZ:
+CNOT = _CNOT()
+
+class _CPauliZ:
     """CPauliZ is the Controlled Pauli Z gate (CZ)
 
-    >>> CPauliZ()
+    >>> CPauliZ
     CZ
-    >>> CPauliZ()()
+    >>> CPauliZ()
     array([[ 1,  0,  0,  0],
            [ 0,  1,  0,  0],
            [ 0,  0,  1,  0],
@@ -161,12 +173,14 @@ class CPauliZ:
               [ 0, 0, 1,  0],
               [ 0, 0, 0, -1]])
 
-class SWAP:
+CPauliZ = _CPauliZ()
+
+class _SWAP:
     """SWAP is the qbit swap gate
 
-    >>> SWAP()
+    >>> SWAP
     SWAP
-    >>> SWAP()()
+    >>> SWAP()
     array([[1, 0, 0, 0],
            [0, 0, 1, 0],
            [0, 1, 0, 0],
@@ -181,3 +195,40 @@ class SWAP:
               [ 0, 0, 1, 0],
               [ 0, 1, 0, 0],
               [ 0, 0, 0, 1]])
+
+SWAP = _SWAP()
+
+def Apply(state: np.array, gate: np.array) -> np.array:
+    """Apply gate to a state
+
+For example this chain evaluates to zero:
+
+    >>> from functools import reduce
+    >>> s = reduce( Apply, [Zero(), H(), PauliZ(), H(), PauliX()])
+    >>> Measure.One(s)
+    0
+
+Swap places of a bit
+
+    >>> one = Combine(Zero(), One())
+    >>> Measure.One(one)
+    1
+    >>> one
+    array([[0],
+           [1],
+           [0],
+           [0]])
+    >>> two = Apply(one, SWAP())
+    >>> Measure.One(two)
+    2
+    >>> two
+    array([[0],
+           [0],
+           [1],
+           [0]])
+    
+
+    """
+
+    return np.matmul(gate, state)
+    
