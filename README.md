@@ -92,8 +92,10 @@ Use Kronecker product of two arrays to combine qubits.
            [0],
            [0],
            [0]])
-    
-    >>> Combine(One(), Combine(Zero(),Zero()))
+
+
+    >>> from functools import reduce
+    >>> reduce(Combine, [One(), Zero(), Zero()])
     array([[0],
            [0],
            [0],

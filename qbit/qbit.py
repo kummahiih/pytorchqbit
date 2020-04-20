@@ -115,8 +115,10 @@ def Combine(a, b):
            [0],
            [0],
            [0]])
-    
-    >>> Combine(One(), Combine(Zero(),Zero()))
+
+
+    >>> from functools import reduce
+    >>> reduce(Combine, [One(), Zero(), Zero()])
     array([[0],
            [0],
            [0],
