@@ -11,12 +11,12 @@ with open('README.md', 'r') as readme_file:
 
 setup(
     name='pyqbit',
-    version='0.2.1',
+    version='0.2.2',
     description='Quantum bit and the usual gates in numeric forms straight from the Wikipedia',
     long_description=README,
     license="MIT",
     author="Pauli Rikula",
-    url='https://github.com/kummahiih/pyqubit',
+    url='https://github.com/kummahiih/pyqbit',
     packages=['qbit'],
     python_requires='~=3.6',
     install_requires=[
