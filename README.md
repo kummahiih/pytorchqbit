@@ -1,34 +1,34 @@
 # pyqbit
 Quantum bit and the usual gates in numeric forms straight from the Wikipedia.
-## Apply
+## apply
 Apply gate to a state
 
 For example this chain evaluates to zero:
 
     >>> from functools import reduce
-    >>> s = reduce( Apply, [Zero(), H(), PauliZ(), H(), PauliX()])
-    >>> Measure.One(s)
+    >>> s = reduce( apply, [Zero(), H(), PauliZ(), H(), PauliX()])
+    >>> Measure.one(s)
     0
 
 Swap places of a bit
 
     >>> one = Combine(Zero(), One())
-    >>> Measure.One(one)
+    >>> Measure.one(one)
     1
     >>> one
     array([[0],
            [1],
            [0],
            [0]])
-    >>> two = Apply(one, SWAP())
-    >>> Measure.One(two)
+    >>> two = apply(one, SWAP())
+    >>> Measure.one(two)
     2
     >>> two
     array([[0],
            [0],
            [1],
            [0]])
-    
+
 
     
 ## Quantum bit definitions
@@ -41,7 +41,7 @@ Qubit that evaluates as zero every single time
     >>> Zero()
     array([[1],
            [0]])
-    >>> Measure.One(Zero())
+    >>> Measure.one(Zero())
     0
 
     
@@ -53,9 +53,9 @@ Qubit that evaluates as one every single time
     >>> One()
     array([[0],
            [1]])
-    >>> Measure.One(One())
+    >>> Measure.one(One())
     1
-    
+
     
 ### Plus
 Qubit that evaluates as one and zero evenly
@@ -65,7 +65,7 @@ Qubit that evaluates as one and zero evenly
     >>> Plus()
     array([[0.70710678],
            [0.70710678]])
-    
+
     
 ### Minus
 Qubit that evaluates as one and zero evenly
@@ -75,12 +75,12 @@ Qubit that evaluates as one and zero evenly
     >>> Minus()
     array([[ 0.70710678],
            [-0.70710678]])
-    
+
     
 ### Measure
 Simulates the measure process of the qubit
 
-    >>> Measure.One(One())
+    >>> Measure.one(One())
     1
 
     
@@ -107,18 +107,27 @@ Use Kronecker product of two arrays to combine qubits.
 
 Each row represents the probability of getting it's index's value as a result
 
-    >>> Measure.One(Combine(Zero(),Zero()))
+    >>> Measure.one(Combine(Zero(),Zero()))
     0
 
-    >>> Measure.One( Combine(One(), Combine(Zero(),Zero())) )
+    >>> Measure.one( Combine(One(), Combine(Zero(),Zero())) )
     4
+
+    
+### equal
+The equal is a test if the two qubit states
+
+    >>> equal(One(), One())
+    True
+    >>> equal(One(), Zero())
+    False
 
     
 ## Quantum gates
 
 ### Identity
 Identity gate
-    
+
     >>> Identity
     Identity
     >>> Identity()
@@ -162,7 +171,7 @@ Pauli Z gate
     >>> PauliZ
     Z
     >>> PauliZ()
-    array([[ 0,  1],
+    array([[ 1,  0],
            [ 0, -1]])
 
     
@@ -221,5 +230,50 @@ SWAP is the qbit swap gate
            [0, 0, 1, 0],
            [0, 1, 0, 0],
            [0, 0, 0, 1]])
+
+    
+## Pauli group
+
+### P1
+P1 is the First Pauli Group done from the cross product of
+[-1, 1, -1j, 1j] and [Identity(), PauliX(), PauliY(), PauliZ()]
+
+
+    >>> P1
+    P1
+    >>> len(P1())
+    16
+    >>> (P1()[0] == -1*Identity()).all()
+    True
+    >>> (P1()[1] ==  1*Identity()).all()
+    True
+    >>> (P1()[2] == -1j*Identity()).all()
+    True
+    >>> (P1()[3] ==  1j*Identity()).all()
+    True
+    >>> (P1()[15] == 1j*PauliZ()).all()
+    True
+
+P1 is a group, so these apply:
+
+Associativy:
+
+    >>> all([ any([equal(apply(a,b), c) for c in P1()]) for a in P1() for b in P1()])
+    True
+
+Identity:
+
+    >>> equal( Identity(), P1()[1])
+    True
+
+    >>> all([ equal(apply(a, Identity()), a) for a in P1()])
+    True
+
+Inverse element:
+
+    >>> all([ any([equal(apply(a, b), Identity()) for b in P1()]) for a in P1() ])
+    True
+
+
 
     

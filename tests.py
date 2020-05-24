@@ -1,7 +1,6 @@
-"""
-   @copyright: 2020 by Pauli Rikula
-   @license: MIT <http://www.opensource.org/licenses/mit-license.php>
-"""
+#    @copyright: 2020 by Pauli Rikula
+#    @license: MIT <http://www.opensource.org/licenses/mit-license.php>
+
 
 
 if __name__ == '__main__':
@@ -26,7 +25,10 @@ if __name__ == '__main__':
         'CNOT': qbit.CNOT,
         'CPauliZ': qbit.CPauliZ,
         'SWAP': qbit.SWAP,
-        'Apply': qbit.Apply
+        'apply': qbit.apply,
+        'equal': qbit.equal,
+        'P1': qbit.P1,
+
     }
     
     doctest.testfile(filename="qbit.py", module_relative=True, package=qbit, globs=globs)
