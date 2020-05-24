@@ -27,9 +27,9 @@ if __name__ == '__main__':
         'SWAP': qbit.SWAP,
         'apply': qbit.apply,
         'equal': qbit.equal,
-        'P1': qbit.P1,
-        'Pn': qbit.Pn
-    }
+        'P1': qbit.P1
+        }
+
     doctest.testfile(filename="pauli_group.py", module_relative=True, package=qbit, globs=globs)
     doctest.testfile(filename="qbit.py", module_relative=True, package=qbit, globs=globs)
     doctest.testfile(filename="gate.py", module_relative=True, package=qbit, globs=globs)

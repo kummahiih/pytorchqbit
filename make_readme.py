@@ -28,7 +28,6 @@ README += '\n### CPauliZ'+ "\n" + qbit.CPauliZ.__doc__
 README += '\n### SWAP'+ "\n" + qbit.SWAP.__doc__
 README += '\n## Pauli group\n'
 README += '\n### P1'+ "\n" + qbit.P1.__doc__
-README += '\n### Pn'+ "\n" + qbit.Pn.__doc__
 
 
 with open('README.md', 'wt') as readme_file:

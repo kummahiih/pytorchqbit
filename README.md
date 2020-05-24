@@ -276,13 +276,3 @@ Inverse element:
     True
 
     
-### Pn
-Pn is the n:th Pauli group instance
-
-    >>> p2 = Pn(2)
-    >>> p2
-    P2
-    >>> len(list(p2()))
-    256
-
-    

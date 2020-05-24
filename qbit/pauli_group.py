@@ -9,7 +9,7 @@ import typing
 from itertools import product
 from functools import reduce
 import numpy as np
-from .gate import (PauliX, PauliY, PauliZ, Identity)
+from .gate import (PauliX, PauliY, PauliZ, Identity, apply)
 
 
 class _P1():
@@ -60,46 +60,6 @@ Inverse element:
         return 'P1'
     def __call__(self) -> typing.Iterator[np.ndarray]:
         return map(lambda x: x[0] * x[1], product([Identity(), PauliX(), PauliY(), PauliZ()], [-1, 1, -1j, 1j]))
-#        return [
-#            -1  * Identity(), #  0
-#            1   * Identity(), #  1
-#            -1j * Identity(), #  2
-#            1j  * Identity(), #  3
-#            -1  * PauliX(),   #  4
-#            1   * PauliX(),   #  5
-#            -1j * PauliX(),   #  6
-#            1j  * PauliX(),   #  7
-#            -1  * PauliY(),   #  8
-#            1   * PauliY(),   #  9
-#            -1j * PauliY(),   # 10
-#            1j  * PauliY(),   # 11
-#            -1  * PauliZ(),   # 12
-#            1   * PauliZ(),   # 13
-#            -1j * PauliZ(),   # 14
-#            1j  * PauliZ()    # 15
-#            ]
-#
+
 P1 = _P1()
-
-class Pn:
-    """Pn is the n:th Pauli group instance
-
-    >>> p2 = Pn(2)
-    >>> p2
-    P2
-    >>> len(list(p2()))
-    256
-
-    """
-
-    def __init__(self, n: int):
-        self.n = n
-
-    def __repr__(self):
-        return 'P%d'%(self.n)
-
-    def __call__(self) -> typing.Iterator[np.ndarray]:
-        if self.n == 1:
-            return P1()
-        return reduce(product, [P1() for _ in range(self.n)])
 
