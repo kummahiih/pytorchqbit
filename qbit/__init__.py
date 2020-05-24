@@ -26,9 +26,10 @@ __all__ = [
     'Identity',
     'Combine',
     'equal',
-    'P1'
+    'P1',
+    'Pn'
     ]
 
 from .qbit import Zero, One, Plus, Minus, Measure, Combine, equal
 from .gate import Identity, H, PauliX, PauliY, PauliZ, Phase, R, CNOT, CPauliZ, SWAP, apply
-from .pauli_group import P1
+from .pauli_group import P1, Pn

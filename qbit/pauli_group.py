@@ -6,6 +6,8 @@ Pauli group related definitions
 """
 
 import typing
+from itertools import product
+from functools import reduce
 import numpy as np
 from .gate import (PauliX, PauliY, PauliZ, Identity)
 
@@ -17,20 +19,21 @@ class _P1():
 
     >>> P1
     P1
-    >>> len(P1())
+    >>> p1 = list(P1())
+    >>> len(p1)
     16
-    >>> (P1()[0] == -1*Identity()).all()
+    >>> equal(p1[0], -1*Identity())
     True
-    >>> (P1()[1] ==  1*Identity()).all()
+    >>> equal(p1[1], 1*Identity())
     True
-    >>> (P1()[2] == -1j*Identity()).all()
+    >>> equal(p1[2], -1j*Identity())
     True
-    >>> (P1()[3] ==  1j*Identity()).all()
+    >>> equal(p1[3], 1j*Identity())
     True
-    >>> (P1()[15] == 1j*PauliZ()).all()
+    >>> equal(p1[15], 1j*PauliZ())
     True
 
-P1 is a group, so these apply:
+p1 is a group, so these apply:
 
 Associativy:
 
@@ -39,7 +42,7 @@ Associativy:
 
 Identity:
 
-    >>> equal( Identity(), P1()[1])
+    >>> equal( Identity(), p1[1])
     True
 
     >>> all([ equal(apply(a, Identity()), a) for a in P1()])
@@ -50,31 +53,53 @@ Inverse element:
     >>> all([ any([equal(apply(a, b), Identity()) for b in P1()]) for a in P1() ])
     True
 
-
-
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'P1'
-    def __call__(self) -> typing.List[np.ndarray]:
-        return [
-            -1  * Identity(), #  0
-            1   * Identity(), #  1
-            -1j * Identity(), #  2
-            1j  * Identity(), #  3
-            -1  * PauliX(),   #  4
-            1   * PauliX(),   #  5
-            -1j * PauliX(),   #  6
-            1j  * PauliX(),   #  7
-            -1  * PauliY(),   #  8
-            1   * PauliY(),   #  9
-            -1j * PauliY(),   # 10
-            1j  * PauliY(),   # 11
-            -1  * PauliZ(),   # 12
-            1   * PauliZ(),   # 13
-            -1j * PauliZ(),   # 14
-            1j  * PauliZ()    # 15
-            ]
-
+    def __call__(self) -> typing.Iterator[np.ndarray]:
+        return map(lambda x: x[0] * x[1], product([Identity(), PauliX(), PauliY(), PauliZ()], [-1, 1, -1j, 1j]))
+#        return [
+#            -1  * Identity(), #  0
+#            1   * Identity(), #  1
+#            -1j * Identity(), #  2
+#            1j  * Identity(), #  3
+#            -1  * PauliX(),   #  4
+#            1   * PauliX(),   #  5
+#            -1j * PauliX(),   #  6
+#            1j  * PauliX(),   #  7
+#            -1  * PauliY(),   #  8
+#            1   * PauliY(),   #  9
+#            -1j * PauliY(),   # 10
+#            1j  * PauliY(),   # 11
+#            -1  * PauliZ(),   # 12
+#            1   * PauliZ(),   # 13
+#            -1j * PauliZ(),   # 14
+#            1j  * PauliZ()    # 15
+#            ]
+#
 P1 = _P1()
+
+class Pn:
+    """Pn is the n:th Pauli group instance
+
+    >>> p2 = Pn(2)
+    >>> p2
+    P2
+    >>> len(list(p2()))
+    256
+
+    """
+
+    def __init__(self, n: int):
+        self.n = n
+
+    def __repr__(self):
+        return 'P%d'%(self.n)
+
+    def __call__(self) -> typing.Iterator[np.ndarray]:
+        if self.n == 1:
+            return P1()
+        return reduce(product, [P1() for _ in range(self.n)])
+

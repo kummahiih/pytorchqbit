@@ -241,20 +241,21 @@ P1 is the First Pauli Group done from the cross product of
 
     >>> P1
     P1
-    >>> len(P1())
+    >>> p1 = list(P1())
+    >>> len(p1)
     16
-    >>> (P1()[0] == -1*Identity()).all()
+    >>> equal(p1[0], -1*Identity())
     True
-    >>> (P1()[1] ==  1*Identity()).all()
+    >>> equal(p1[1], 1*Identity())
     True
-    >>> (P1()[2] == -1j*Identity()).all()
+    >>> equal(p1[2], -1j*Identity())
     True
-    >>> (P1()[3] ==  1j*Identity()).all()
+    >>> equal(p1[3], 1j*Identity())
     True
-    >>> (P1()[15] == 1j*PauliZ()).all()
+    >>> equal(p1[15], 1j*PauliZ())
     True
 
-P1 is a group, so these apply:
+p1 is a group, so these apply:
 
 Associativy:
 
@@ -263,7 +264,7 @@ Associativy:
 
 Identity:
 
-    >>> equal( Identity(), P1()[1])
+    >>> equal( Identity(), p1[1])
     True
 
     >>> all([ equal(apply(a, Identity()), a) for a in P1()])
@@ -274,6 +275,14 @@ Inverse element:
     >>> all([ any([equal(apply(a, b), Identity()) for b in P1()]) for a in P1() ])
     True
 
+    
+### Pn
+Pn is the n:th Pauli group instance
 
+    >>> p2 = Pn(2)
+    >>> p2
+    P2
+    >>> len(list(p2()))
+    256
 
     
