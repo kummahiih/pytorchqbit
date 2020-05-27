@@ -11,7 +11,7 @@ with open('README.md', 'r') as readme_file:
 
 setup(
     name='pyqbit',
-    version='0.2.2',
+    version='0.2.3',
     description='Quantum bit and the usual gates in numeric forms straight from the Wikipedia',
     long_description=README,
     license="MIT",

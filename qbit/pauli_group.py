@@ -60,6 +60,83 @@ Inverse element:
         return 'P1'
     def __call__(self) -> typing.Iterator[np.ndarray]:
         return map(lambda x: x[0] * x[1], product([Identity(), PauliX(), PauliY(), PauliZ()], [-1, 1, -1j, 1j]))
-
+#        return [
+#            -1  * Identity(), #  0
+#            1   * Identity(), #  1
+#            -1j * Identity(), #  2
+#            1j  * Identity(), #  3
+#            -1  * PauliX(),   #  4
+#            1   * PauliX(),   #  5
+#            -1j * PauliX(),   #  6
+#            1j  * PauliX(),   #  7
+#            -1  * PauliY(),   #  8
+#            1   * PauliY(),   #  9
+#            -1j * PauliY(),   # 10
+#            1j  * PauliY(),   # 11
+#            -1  * PauliZ(),   # 12
+#            1   * PauliZ(),   # 13
+#            -1j * PauliZ(),   # 14
+#            1j  * PauliZ()    # 15
+#            ]
+#
 P1 = _P1()
+
+class Pn:
+    """Pn is the n:th Pauli group instance
+
+    >>> P2 = Pn(2)
+    >>> P2
+    P2
+    >>> p2 = list(P2())
+    >>> len(p2)
+    1024
+    >>> p2[0]
+    array([[-1., -0., -0., -0.],
+           [-0., -1., -0., -0.],
+           [-0., -0., -1., -0.],
+           [-0., -0., -0., -1.]])
+    >>> p2[1]
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
+
+p2 is a group, so these apply:
+
+Associativy:
+
+    >>> import random
+    >>> all_products = [apply(a,b) for a in p2 for b in p2]
+    >>> all([ any([equal(p, c) for c in p2]) for p in random.sample(all_products, 1000)])
+    True
+
+Identity:
+
+    >>> equal(Identity(2), p2[1])
+    True
+    >>> i2 = p2[1]
+    >>> all([ equal(apply(a, i2), a) for a in p2])
+    True
+
+Inverse element:
+
+    >>> all([ any([equal(apply(a, b), i2) for b in p2]) for a in random.sample(p2, 20)])
+    True
+
+    """
+
+    def __init__(self, n: int):
+        self.n = n
+
+    def __repr__(self):
+        return 'P%d'%(self.n)
+
+    def __call__(self) -> typing.Iterator[np.ndarray]:
+        if self.n == 1:
+            return P1()
+        for items in reduce(product, [P1() for _ in range(self.n)]):
+            tensor_part = reduce(np.kron, items)
+            for multiplier in [-1, 1, -1j, 1j]:
+                yield multiplier * tensor_part
 

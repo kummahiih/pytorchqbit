@@ -114,7 +114,7 @@ class _Measure:
 
 Measure = _Measure()
 
-def Combine(x, y):
+def Combine(x, y, *rest):
     """Use Kronecker product of two arrays to combine qubits.
 
     >>> Combine(Zero(),Zero())
@@ -134,6 +134,15 @@ def Combine(x, y):
            [0],
            [0],
            [0]])
+    >>> Combine(One(), Zero(), Zero())
+    array([[0],
+           [0],
+           [0],
+           [0],
+           [1],
+           [0],
+           [0],
+           [0]])
 
 Each row represents the probability of getting it's index's value as a result
 
@@ -144,7 +153,9 @@ Each row represents the probability of getting it's index's value as a result
     4
 
     """
-    return np.kron(x, y)
+    if len(rest) == 0:
+        return np.kron(x, y)
+    return Combine(np.kron(x, y), *rest)
 
 
 def equal(x: np.ndarray, y: np.ndarray, atol=1e-10) -> bool:

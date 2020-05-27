@@ -104,6 +104,15 @@ Use Kronecker product of two arrays to combine qubits.
            [0],
            [0],
            [0]])
+    >>> Combine(One(), Zero(), Zero())
+    array([[0],
+           [0],
+           [0],
+           [0],
+           [1],
+           [0],
+           [0],
+           [0]])
 
 Each row represents the probability of getting it's index's value as a result
 
@@ -131,8 +140,14 @@ Identity gate
     >>> Identity
     Identity
     >>> Identity()
-    array([[1, 0],
-           [0, 1]])
+    array([[1., 0.],
+           [0., 1.]])
+    >>> Identity(2)
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
 
     
 ### H
@@ -274,5 +289,75 @@ Inverse element:
 
     >>> all([ any([equal(apply(a, b), Identity()) for b in P1()]) for a in P1() ])
     True
+
+    
+### Pn
+Pn is the n:th Pauli group instance
+
+    >>> P2 = Pn(2)
+    >>> P2
+    P2
+    >>> p2 = list(P2())
+    >>> len(p2)
+    1024
+    >>> p2[0]
+    array([[-1., -0., -0., -0.],
+           [-0., -1., -0., -0.],
+           [-0., -0., -1., -0.],
+           [-0., -0., -0., -1.]])
+    >>> p2[1]
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
+
+p2 is a group, so these apply:
+
+Associativy:
+
+    >>> import random
+    >>> all_products = [apply(a,b) for a in p2 for b in p2]
+    >>> all([ any([equal(p, c) for c in p2]) for p in random.sample(all_products, 1000)])
+    True
+
+Identity:
+
+    >>> equal(Identity(2), p2[1])
+    True
+    >>> i2 = p2[1]
+    >>> all([ equal(apply(a, i2), a) for a in p2])
+    True
+
+Inverse element:
+
+    >>> all([ any([equal(apply(a, b), i2) for b in p2]) for a in random.sample(p2, 20)])
+    True
+
+    
+## Stabilizer codes
+
+### S_5_1_3
+S_5_1_3 error correction code encodes one logical qubit into five physical qubits.
+    S_5_1_3 protects against an arbitrary single-qubit error and it has code distance three codes.
+
+    >>> S_5_1_3
+    S_5_1_3
+
+    >>> S_5_1_3.g1()
+    array([[ 0.,  1.,  1.,  0.,  1.,  0.,  0.,  1.,  1.,  0.],
+           [ 1.,  0.,  0., -1.,  0., -1.,  1.,  0.,  0.,  1.]])
+
+    >>> S_5_1_3.g2()
+    array([[ 1.,  0.,  0.,  1.,  1.,  0.,  1.,  0.,  0.,  1.],
+           [ 0.,  1.,  1.,  0.,  0., -1.,  0., -1.,  1.,  0.]])
+
+    >>> S_5_1_3.g3()
+    array([[ 0.,  1.,  1.,  0.,  0.,  1.,  1.,  0.,  1.,  0.],
+           [ 1.,  0.,  0.,  1.,  1.,  0.,  0., -1.,  0., -1.]])
+
+    >>> S_5_1_3.g4()
+    array([[ 1.,  0.,  0.,  1.,  1.,  0.,  0.,  1.,  1.,  0.],
+           [ 0., -1.,  1.,  0.,  0.,  1.,  1.,  0.,  0., -1.]])
 
     

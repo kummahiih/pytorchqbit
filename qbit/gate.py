@@ -15,16 +15,22 @@ class _Identity():
     >>> Identity
     Identity
     >>> Identity()
-    array([[1, 0],
-           [0, 1]])
+    array([[1., 0.],
+           [0., 1.]])
+    >>> Identity(2)
+    array([[1., 0., 0., 0.],
+           [0., 1., 0., 0.],
+           [0., 0., 1., 0.],
+           [0., 0., 0., 1.]])
+
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'Identity'
-    def __call__(self) -> np.ndarray:
-        return np.array([[1, 0], [0, 1]])
+    def __call__(self, n:int = 1) -> np.ndarray:
+        return np.eye(2*n)
 
 Identity = _Identity()
 
