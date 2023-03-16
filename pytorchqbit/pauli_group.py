@@ -8,7 +8,7 @@ Pauli group related definitions
 import typing
 from itertools import product
 from functools import reduce
-import numpy as np
+import torch
 from .gate import (PauliX, PauliY, PauliZ, Identity, apply)
 
 
@@ -58,7 +58,7 @@ Inverse element:
         pass
     def __repr__(self):
         return 'P1'
-    def __call__(self) -> typing.Iterator[np.ndarray]:
+    def __call__(self) -> typing.Iterator[torch.Tensor]:
         return map(lambda x: x[0] * x[1], product([Identity(), PauliX(), PauliY(), PauliZ()], [-1, 1, -1j, 1j]))
 #        return [
 #            -1  * Identity(), #  0
@@ -91,15 +91,16 @@ class Pn:
     >>> len(p2)
     1024
     >>> p2[0]
-    array([[-1., -0., -0., -0.],
-           [-0., -1., -0., -0.],
-           [-0., -0., -1., -0.],
-           [-0., -0., -0., -1.]])
+    tensor([[-1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j, -1.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j, -1.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j,  0.+0.j, -1.+0.j]])
+
     >>> p2[1]
-    array([[1., 0., 0., 0.],
-           [0., 1., 0., 0.],
-           [0., 0., 1., 0.],
-           [0., 0., 0., 1.]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j]])
 
 
 p2 is a group, so these apply:
@@ -132,11 +133,11 @@ Inverse element:
     def __repr__(self):
         return 'P%d'%(self.n)
 
-    def __call__(self) -> typing.Iterator[np.ndarray]:
+    def __call__(self) -> typing.Iterator[torch.Tensor]:
         if self.n == 1:
             return P1()
         for items in reduce(product, [P1() for _ in range(self.n)]):
-            tensor_part = reduce(np.kron, items)
+            tensor_part = reduce(torch.kron, items)
             for multiplier in [-1, 1, -1j, 1j]:
                 yield multiplier * tensor_part
 

@@ -8,6 +8,7 @@
 
 
 __all__ = [
+    'convert_to_complex',
     'Zero',
     'One',
     'Plus',
@@ -30,7 +31,7 @@ __all__ = [
     'Pn',
     'S_5_1_3'
     ]
-
+from .convert import convert_to_complex
 from .qbit import Zero, One, Plus, Minus, Measure, Combine, equal
 from .gate import Identity, H, PauliX, PauliY, PauliZ, Phase, R, CNOT, CPauliZ, SWAP, apply
 from .pauli_group import P1, Pn

@@ -5,7 +5,9 @@ Representation of single qubit basic states
 """
 
 import random
-import numpy as np
+import torch
+from .convert import convert_to_complex
+ 
 
 
 class _Zero():
@@ -14,8 +16,8 @@ class _Zero():
     >>> Zero
     |0>
     >>> Zero()
-    array([[1],
-           [0]])
+    tensor([[1.+0.j],
+            [0.+0.j]])
     >>> Measure.one(Zero())
     0
 
@@ -24,8 +26,8 @@ class _Zero():
         pass
     def __repr__(self):
         return '|0>'
-    def __call__(self) -> np.ndarray:
-        return np.array([[1], [0]])
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([[1], [0]])
 
 Zero = _Zero()
 
@@ -35,8 +37,8 @@ class _One():
     >>> One
     |1>
     >>> One()
-    array([[0],
-           [1]])
+    tensor([[0.+0.j],
+            [1.+0.j]])
     >>> Measure.one(One())
     1
 
@@ -45,8 +47,8 @@ class _One():
         pass
     def __repr__(self):
         return '|1>'
-    def __call__(self) -> np.ndarray:
-        return np.array([[0], [1]])
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([[0], [1]])
 
 One = _One()
 
@@ -56,15 +58,15 @@ class _Plus():
     >>> Plus
     |+>
     >>> Plus()
-    array([[0.70710678],
-           [0.70710678]])
+    tensor([[0.7071+0.j],
+            [0.7071+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return '|+>'
-    def __call__(self) -> np.ndarray:
+    def __call__(self) -> torch.Tensor:
         return (2**-0.5) *(Zero() + One())
 
 Plus = _Plus()
@@ -75,24 +77,24 @@ class _Minus():
     >>> Minus
     |->
     >>> Minus()
-    array([[ 0.70710678],
-           [-0.70710678]])
+    tensor([[ 0.7071+0.j],
+            [-0.7071+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return '|->'
-    def __call__(self) -> np.ndarray:
+    def __call__(self) -> torch.Tensor:
         return (2**-0.5) *(Zero() - One())
 
 Minus = _Minus()
 
-def a(array: np.ndarray) -> complex:
+def a(array: torch.Tensor) -> complex:
     """a**2 is the probability for qbit == False"""
     return array[0][0] + 0j
 
-def b(array: np.ndarray) -> complex:
+def b(array: torch.Tensor) -> complex:
     """b**2 is the probability for qbit == True"""
     return array[1][0] + 0j
 
@@ -108,9 +110,10 @@ class _Measure:
     def __repr__(self):
         return 'M'
     @staticmethod
-    def one(q_bit: np.ndarray) -> int:
+    def one(q_bit: torch.Tensor) -> int:
         """Gets a random value according the quantum state weights"""
-        return random.choices(range(len(q_bit)), q_bit * q_bit, k=1)[0]
+
+        return random.choices(range(len(q_bit)), (q_bit * q_bit).real, k=1)[0]
 
 Measure = _Measure()
 
@@ -118,31 +121,31 @@ def Combine(x, y, *rest):
     """Use Kronecker product of two arrays to combine qubits.
 
     >>> Combine(Zero(),Zero())
-    array([[1],
-           [0],
-           [0],
-           [0]])
+    tensor([[1.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
 
 
     >>> from functools import reduce
     >>> reduce(Combine, [One(), Zero(), Zero()])
-    array([[0],
-           [0],
-           [0],
-           [0],
-           [1],
-           [0],
-           [0],
-           [0]])
+    tensor([[0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [1.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
     >>> Combine(One(), Zero(), Zero())
-    array([[0],
-           [0],
-           [0],
-           [0],
-           [1],
-           [0],
-           [0],
-           [0]])
+    tensor([[0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [1.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
 
 Each row represents the probability of getting it's index's value as a result
 
@@ -154,11 +157,11 @@ Each row represents the probability of getting it's index's value as a result
 
     """
     if len(rest) == 0:
-        return np.kron(x, y)
-    return Combine(np.kron(x, y), *rest)
+        return torch.kron(x, y)
+    return Combine(torch.kron(x, y), *rest)
 
 
-def equal(x: np.ndarray, y: np.ndarray, atol=1e-10) -> bool:
+def equal(x: torch.Tensor, y: torch.Tensor, atol=1e-10) -> bool:
     """The equal is a test if the two qubit states
 
     >>> equal(One(), One())
@@ -170,4 +173,4 @@ def equal(x: np.ndarray, y: np.ndarray, atol=1e-10) -> bool:
 
     # maybe there is a np shorthand for this,
     # but at least i can change it from one place if this does not work well
-    return np.linalg.norm(x - y) < atol
+    return (torch.linalg.norm(x - y) < atol).item()

@@ -7,7 +7,9 @@ Quatum gates from https://en.wikipedia.org/wiki/Quantum_logic_gate
 """
 
 from math import e
-import numpy as np
+import torch
+from .convert import convert_to_complex
+
 
 class _Identity():
     """Identity gate
@@ -15,13 +17,13 @@ class _Identity():
     >>> Identity
     Identity
     >>> Identity()
-    array([[1., 0.],
-           [0., 1.]])
+    tensor([[1.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j]])
     >>> Identity(2)
-    array([[1., 0., 0., 0.],
-           [0., 1., 0., 0.],
-           [0., 0., 1., 0.],
-           [0., 0., 0., 1.]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j]])
 
 
     """
@@ -29,8 +31,8 @@ class _Identity():
         pass
     def __repr__(self):
         return 'Identity'
-    def __call__(self, n:int = 1) -> np.ndarray:
-        return np.eye(2*n)
+    def __call__(self, n:int = 1) -> torch.Tensor:
+        return convert_to_complex(torch.eye(2*n))
 
 Identity = _Identity()
 
@@ -40,16 +42,16 @@ class _H():
     >>> H
     H
     >>> H()
-    array([[ 0.70710678,  0.70710678],
-           [ 0.70710678, -0.70710678]])
+    tensor([[ 0.7071+0.j,  0.7071+0.j],
+            [ 0.7071+0.j, -0.7071+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'H'
-    def __call__(self) -> np.ndarray:
-        return (2**-0.5)*np.array([[1, 1], [1, -1]])
+    def __call__(self) -> torch.Tensor:
+        return (2**-0.5)*convert_to_complex([[1, 1], [1, -1]])
 
 H = _H()
 
@@ -59,16 +61,16 @@ class _PauliX():
     >>> PauliX
     X
     >>> PauliX()
-    array([[0, 1],
-           [1, 0]])
+    tensor([[0.+0.j, 1.+0.j],
+            [1.+0.j, 0.+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'X'
-    def __call__(self) -> np.ndarray:
-        return np.array([[0, 1], [1, 0]])
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([[0, 1], [1, 0]])
 
 PauliX = _PauliX()
 
@@ -78,16 +80,16 @@ class _PauliY():
     >>> PauliY
     Y
     >>> PauliY()
-    array([[ 0.+0.j, -0.-1.j],
-           [ 0.+1.j,  0.+0.j]])
+    tensor([[0.+0.j, -0.-1.j],
+            [0.+1.j, 0.+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'Y'
-    def __call__(self) -> np.ndarray:
-        return np.array([
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([
             [0, -1j],
             [1j, 0]])
 
@@ -99,16 +101,16 @@ class _PauliZ():
     >>> PauliZ
     Z
     >>> PauliZ()
-    array([[ 1,  0],
-           [ 0, -1]])
+    tensor([[ 1.+0.j,  0.+0.j],
+            [ 0.+0.j, -1.+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'Z'
-    def __call__(self) -> np.ndarray:
-        return np.array([
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([
             [1, 0],
             [0, -1]])
 
@@ -120,16 +122,16 @@ class _Phase():
     >>> Phase
     P
     >>> Phase()
-    array([[1.+0.j, 0.+0.j],
-           [0.+0.j, 0.+1.j]])
+    tensor([[1.+0.j, 0.+0.j],
+            [0.+0.j, 0.+1.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'P'
-    def __call__(self) -> np.ndarray:
-        return np.array([[1, 0], [0, 0+1j]])
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([[1, 0], [0, 0+1j]])
 
 Phase = _Phase()
 
@@ -140,16 +142,17 @@ class R:
     >>> R(pi/4)
     R(0.7853981633974483)
     >>> R(pi/4)()
-    array([[1.        +0.j        , 0.        +0.j        ],
-           [0.        +0.j        , 0.70710678+0.70710678j]])
+    tensor([[1.0000+0.0000j, 0.0000+0.0000j],
+            [0.0000+0.0000j, 0.7071+0.7071j]])
+
 
     """
     def __init__(self, phase_shift):
         self._phase_shift = phase_shift
     def __repr__(self):
         return 'R(%s)'%self._phase_shift
-    def __call__(self) -> np.ndarray:
-        return np.array([[1, 0], [0, e**((0 + 1j) * self._phase_shift)]])
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([[1, 0], [0, e**((0 + 1j) * self._phase_shift)]])
 
 
 class _CNOT:
@@ -158,18 +161,18 @@ class _CNOT:
     >>> CNOT
     CX
     >>> CNOT()
-    array([[1, 0, 0, 0],
-           [0, 1, 0, 0],
-           [0, 0, 0, 1],
-           [0, 0, 1, 0]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'CX'
-    def __call__(self) -> np.ndarray:
-        return np.array([
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([
             [1, 0, 0, 0],
             [0, 1, 0, 0],
             [0, 0, 0, 1],
@@ -183,18 +186,18 @@ class _CPauliZ:
     >>> CPauliZ
     CZ
     >>> CPauliZ()
-    array([[ 1,  0,  0,  0],
-           [ 0,  1,  0,  0],
-           [ 0,  0,  1,  0],
-           [ 0,  0,  0, -1]])
+    tensor([[ 1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j,  1.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j,  1.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j,  0.+0.j, -1.+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'CZ'
-    def __call__(self) -> np.ndarray:
-        return np.array([
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([
             [1, 0, 0, 0],
             [0, 1, 0, 0],
             [0, 0, 1, 0],
@@ -208,18 +211,18 @@ class _SWAP:
     >>> SWAP
     SWAP
     >>> SWAP()
-    array([[1, 0, 0, 0],
-           [0, 0, 1, 0],
-           [0, 1, 0, 0],
-           [0, 0, 0, 1]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j]])
 
     """
     def __init__(self):
         pass
     def __repr__(self):
         return 'SWAP'
-    def __call__(self) -> np.ndarray:
-        return np.array([
+    def __call__(self) -> torch.Tensor:
+        return convert_to_complex([
             [1, 0, 0, 0],
             [0, 0, 1, 0],
             [0, 1, 0, 0],
@@ -227,7 +230,7 @@ class _SWAP:
 
 SWAP = _SWAP()
 
-def apply(state: np.ndarray, gate: np.ndarray) -> np.ndarray:
+def apply(state: torch.Tensor, gate: torch.Tensor) -> torch.Tensor:
     """Apply gate to a state
 
 For example this chain evaluates to zero:
@@ -243,20 +246,20 @@ Swap places of a bit
     >>> Measure.one(one)
     1
     >>> one
-    array([[0],
-           [1],
-           [0],
-           [0]])
+    tensor([[0.+0.j],
+            [1.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
     >>> two = apply(one, SWAP())
     >>> Measure.one(two)
     2
     >>> two
-    array([[0],
-           [0],
-           [1],
-           [0]])
+    tensor([[0.+0.j],
+            [0.+0.j],
+            [1.+0.j],
+            [0.+0.j]])
 
 
     """
 
-    return np.matmul(gate, state)
+    return torch.matmul(gate, state)

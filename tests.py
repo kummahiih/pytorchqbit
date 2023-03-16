@@ -5,34 +5,35 @@
 
 if __name__ == '__main__':
     import doctest
-    import qbit
+    import pytorchqbit
 
     # by importing these here, there might be some import errors left..
     globs = {
-        'Zero': qbit.Zero,
-        'One': qbit.One,
-        'Plus': qbit.Plus,
-        'Minus': qbit.Minus,
-        'Measure': qbit.Measure,
-        'Combine': qbit.Combine,
-        'Identity': qbit.Identity,
-        'H': qbit.H,
-        'PauliX': qbit.PauliX,
-        'PauliY': qbit.PauliY,
-        'PauliZ': qbit.PauliZ,
-        'Phase':  qbit.Phase,
-        'R': qbit.R,
-        'CNOT': qbit.CNOT,
-        'CPauliZ': qbit.CPauliZ,
-        'SWAP': qbit.SWAP,
-        'apply': qbit.apply,
-        'equal': qbit.equal,
-        'P1': qbit.P1,
-        'Pn': qbit.Pn,
-        'S_5_1_3': qbit.S_5_1_3
+        'convert_to_complex': pytorchqbit.convert_to_complex,
+        'Zero': pytorchqbit.Zero,
+        'One': pytorchqbit.One,
+        'Plus': pytorchqbit.Plus,
+        'Minus': pytorchqbit.Minus,
+        'Measure': pytorchqbit.Measure,
+        'Combine': pytorchqbit.Combine,
+        'Identity': pytorchqbit.Identity,
+        'H': pytorchqbit.H,
+        'PauliX': pytorchqbit.PauliX,
+        'PauliY': pytorchqbit.PauliY,
+        'PauliZ': pytorchqbit.PauliZ,
+        'Phase':  pytorchqbit.Phase,
+        'R': pytorchqbit.R,
+        'CNOT': pytorchqbit.CNOT,
+        'CPauliZ': pytorchqbit.CPauliZ,
+        'SWAP': pytorchqbit.SWAP,
+        'apply': pytorchqbit.apply,
+        'equal': pytorchqbit.equal,
+        'P1': pytorchqbit.P1,
+        'Pn': pytorchqbit.Pn,
+        'S_5_1_3': pytorchqbit.S_5_1_3
         }
-    doctest.testfile(filename="stabilizer.py", module_relative=True, package=qbit, globs=globs)
-    doctest.testfile(filename="pauli_group.py", module_relative=True, package=qbit, globs=globs)
-    doctest.testfile(filename="qbit.py", module_relative=True, package=qbit, globs=globs)
-    doctest.testfile(filename="gate.py", module_relative=True, package=qbit, globs=globs)
-    doctest.testfile(filename="__init__.py", module_relative=True, package=qbit, globs=globs)
+    doctest.testfile(filename="stabilizer.py", module_relative=True, package=pytorchqbit, globs=globs)
+    doctest.testfile(filename="pauli_group.py", module_relative=True, package=pytorchqbit, globs=globs)
+    doctest.testfile(filename="qbit.py", module_relative=True, package=pytorchqbit, globs=globs)
+    doctest.testfile(filename="gate.py", module_relative=True, package=pytorchqbit, globs=globs)
+    doctest.testfile(filename="__init__.py", module_relative=True, package=pytorchqbit, globs=globs)

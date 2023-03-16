@@ -4,23 +4,23 @@
 
 
 from setuptools import setup
-import qbit
+import pytorchqbit
 
 with open('README.md', 'r') as readme_file:
     README = readme_file.read()
 
 setup(
-    name='pyqbit',
+    name='pytorchqbit',
     version='0.2.3',
-    description='Quantum bit and the usual gates in numeric forms straight from the Wikipedia',
+    description='Quantum bit and the usual gates in torch tensors straight from the Wikipedia',
     long_description=README,
     license="MIT",
     author="Pauli Rikula",
-    url='https://github.com/kummahiih/pyqbit',
-    packages=['qbit'],
-    python_requires='~=3.6',
+    url='https://github.com/kummahiih/pytorchqbit',
+    packages=['pytorchqbit'],
+    python_requires='~=3.10',
     install_requires=[
-          'numpy>=1.18.1'],
+          'torch>=2.0.0'],
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.6']

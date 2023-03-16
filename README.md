@@ -1,4 +1,4 @@
-# pyqbit
+# pypytorchqbit
 Quantum bit and the usual gates in numeric forms straight from the Wikipedia.
 ## apply
 Apply gate to a state
@@ -16,18 +16,18 @@ Swap places of a bit
     >>> Measure.one(one)
     1
     >>> one
-    array([[0],
-           [1],
-           [0],
-           [0]])
+    tensor([[0.+0.j],
+            [1.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
     >>> two = apply(one, SWAP())
     >>> Measure.one(two)
     2
     >>> two
-    array([[0],
-           [0],
-           [1],
-           [0]])
+    tensor([[0.+0.j],
+            [0.+0.j],
+            [1.+0.j],
+            [0.+0.j]])
 
 
     
@@ -39,8 +39,8 @@ Qubit that evaluates as zero every single time
     >>> Zero
     |0>
     >>> Zero()
-    array([[1],
-           [0]])
+    tensor([[1.+0.j],
+            [0.+0.j]])
     >>> Measure.one(Zero())
     0
 
@@ -51,8 +51,8 @@ Qubit that evaluates as one every single time
     >>> One
     |1>
     >>> One()
-    array([[0],
-           [1]])
+    tensor([[0.+0.j],
+            [1.+0.j]])
     >>> Measure.one(One())
     1
 
@@ -63,8 +63,8 @@ Qubit that evaluates as one and zero evenly
     >>> Plus
     |+>
     >>> Plus()
-    array([[0.70710678],
-           [0.70710678]])
+    tensor([[0.7071+0.j],
+            [0.7071+0.j]])
 
     
 ### Minus
@@ -73,8 +73,8 @@ Qubit that evaluates as one and zero evenly
     >>> Minus
     |->
     >>> Minus()
-    array([[ 0.70710678],
-           [-0.70710678]])
+    tensor([[ 0.7071+0.j],
+            [-0.7071+0.j]])
 
     
 ### Measure
@@ -88,31 +88,31 @@ Simulates the measure process of the qubit
 Use Kronecker product of two arrays to combine qubits.
 
     >>> Combine(Zero(),Zero())
-    array([[1],
-           [0],
-           [0],
-           [0]])
+    tensor([[1.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
 
 
     >>> from functools import reduce
     >>> reduce(Combine, [One(), Zero(), Zero()])
-    array([[0],
-           [0],
-           [0],
-           [0],
-           [1],
-           [0],
-           [0],
-           [0]])
+    tensor([[0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [1.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
     >>> Combine(One(), Zero(), Zero())
-    array([[0],
-           [0],
-           [0],
-           [0],
-           [1],
-           [0],
-           [0],
-           [0]])
+    tensor([[0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [1.+0.j],
+            [0.+0.j],
+            [0.+0.j],
+            [0.+0.j]])
 
 Each row represents the probability of getting it's index's value as a result
 
@@ -140,13 +140,13 @@ Identity gate
     >>> Identity
     Identity
     >>> Identity()
-    array([[1., 0.],
-           [0., 1.]])
+    tensor([[1.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j]])
     >>> Identity(2)
-    array([[1., 0., 0., 0.],
-           [0., 1., 0., 0.],
-           [0., 0., 1., 0.],
-           [0., 0., 0., 1.]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j]])
 
 
     
@@ -156,8 +156,8 @@ Hadamard gate
     >>> H
     H
     >>> H()
-    array([[ 0.70710678,  0.70710678],
-           [ 0.70710678, -0.70710678]])
+    tensor([[ 0.7071+0.j,  0.7071+0.j],
+            [ 0.7071+0.j, -0.7071+0.j]])
 
     
 ### PauliX
@@ -166,8 +166,8 @@ Pauli X gate
     >>> PauliX
     X
     >>> PauliX()
-    array([[0, 1],
-           [1, 0]])
+    tensor([[0.+0.j, 1.+0.j],
+            [1.+0.j, 0.+0.j]])
 
     
 ### PauliY
@@ -176,8 +176,8 @@ Pauli Y gate
     >>> PauliY
     Y
     >>> PauliY()
-    array([[ 0.+0.j, -0.-1.j],
-           [ 0.+1.j,  0.+0.j]])
+    tensor([[0.+0.j, -0.-1.j],
+            [0.+1.j, 0.+0.j]])
 
     
 ### PauliZ
@@ -186,8 +186,8 @@ Pauli Z gate
     >>> PauliZ
     Z
     >>> PauliZ()
-    array([[ 1,  0],
-           [ 0, -1]])
+    tensor([[ 1.+0.j,  0.+0.j],
+            [ 0.+0.j, -1.+0.j]])
 
     
 ### Phase
@@ -196,8 +196,8 @@ Phase (S, P) gate
     >>> Phase
     P
     >>> Phase()
-    array([[1.+0.j, 0.+0.j],
-           [0.+0.j, 0.+1.j]])
+    tensor([[1.+0.j, 0.+0.j],
+            [0.+0.j, 0.+1.j]])
 
     
 ### R
@@ -207,8 +207,9 @@ R is the custom phase shift gate
     >>> R(pi/4)
     R(0.7853981633974483)
     >>> R(pi/4)()
-    array([[1.        +0.j        , 0.        +0.j        ],
-           [0.        +0.j        , 0.70710678+0.70710678j]])
+    tensor([[1.0000+0.0000j, 0.0000+0.0000j],
+            [0.0000+0.0000j, 0.7071+0.7071j]])
+
 
     
 ### CNOT
@@ -217,10 +218,10 @@ CNOT is the Controlled Not gate (CX)
     >>> CNOT
     CX
     >>> CNOT()
-    array([[1, 0, 0, 0],
-           [0, 1, 0, 0],
-           [0, 0, 0, 1],
-           [0, 0, 1, 0]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j]])
 
     
 ### CPauliZ
@@ -229,10 +230,10 @@ CPauliZ is the Controlled Pauli Z gate (CZ)
     >>> CPauliZ
     CZ
     >>> CPauliZ()
-    array([[ 1,  0,  0,  0],
-           [ 0,  1,  0,  0],
-           [ 0,  0,  1,  0],
-           [ 0,  0,  0, -1]])
+    tensor([[ 1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j,  1.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j,  1.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j,  0.+0.j, -1.+0.j]])
 
     
 ### SWAP
@@ -241,10 +242,10 @@ SWAP is the qbit swap gate
     >>> SWAP
     SWAP
     >>> SWAP()
-    array([[1, 0, 0, 0],
-           [0, 0, 1, 0],
-           [0, 1, 0, 0],
-           [0, 0, 0, 1]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j]])
 
     
 ## Pauli group
@@ -301,15 +302,16 @@ Pn is the n:th Pauli group instance
     >>> len(p2)
     1024
     >>> p2[0]
-    array([[-1., -0., -0., -0.],
-           [-0., -1., -0., -0.],
-           [-0., -0., -1., -0.],
-           [-0., -0., -0., -1.]])
+    tensor([[-1.+0.j,  0.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j, -1.+0.j,  0.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j, -1.+0.j,  0.+0.j],
+            [ 0.+0.j,  0.+0.j,  0.+0.j, -1.+0.j]])
+
     >>> p2[1]
-    array([[1., 0., 0., 0.],
-           [0., 1., 0., 0.],
-           [0., 0., 1., 0.],
-           [0., 0., 0., 1.]])
+    tensor([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j],
+            [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j]])
 
 
 p2 is a group, so these apply:
@@ -345,19 +347,19 @@ S_5_1_3 error correction code encodes one logical qubit into five physical qubit
     S_5_1_3
 
     >>> S_5_1_3.g1()
-    array([[ 0.,  1.,  1.,  0.,  1.,  0.,  0.,  1.,  1.,  0.],
-           [ 1.,  0.,  0., -1.,  0., -1.,  1.,  0.,  0.,  1.]])
+    tensor([[ 0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j],
+            [ 1.+0.j,  0.+0.j,  0.+0.j, -1.+0.j,  0.+0.j, -1.+0.j,  1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j]])
 
     >>> S_5_1_3.g2()
-    array([[ 1.,  0.,  0.,  1.,  1.,  0.,  1.,  0.,  0.,  1.],
-           [ 0.,  1.,  1.,  0.,  0., -1.,  0., -1.,  1.,  0.]])
+    tensor([[ 1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j],
+            [ 0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  0.+0.j, -1.+0.j,  0.+0.j, -1.+0.j,  1.+0.j,  0.+0.j]])
 
     >>> S_5_1_3.g3()
-    array([[ 0.,  1.,  1.,  0.,  0.,  1.,  1.,  0.,  1.,  0.],
-           [ 1.,  0.,  0.,  1.,  1.,  0.,  0., -1.,  0., -1.]])
+    tensor([[ 0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  1.+0.j,  0.+0.j],
+            [ 1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  0.+0.j, -1.+0.j,  0.+0.j, -1.+0.j]])
 
     >>> S_5_1_3.g4()
-    array([[ 1.,  0.,  0.,  1.,  1.,  0.,  0.,  1.,  1.,  0.],
-           [ 0., -1.,  1.,  0.,  0.,  1.,  1.,  0.,  0., -1.]])
+    tensor([[ 1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j],
+            [ 0.+0.j, -1.+0.j,  1.+0.j,  0.+0.j,  0.+0.j,  1.+0.j,  1.+0.j,  0.+0.j,  0.+0.j, -1.+0.j]])
 
     
