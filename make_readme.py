@@ -5,7 +5,7 @@
 import pytorchqbit
 
 README =  "# pypytorchqbit" + "\n"
-README += "Quantum bit and the usual gates in numeric forms straight from the Wikipedia."
+README += "Quantum bit and the usual gates in torch tensors straight from the Wikipedia."
 README += '\n## apply'+ "\n" + pytorchqbit.apply.__doc__
 README += '\n## Quantum bit definitions\n'
 README += '\n### Zero'+ "\n" + pytorchqbit.Zero.__doc__

@@ -1,5 +1,5 @@
 # pypytorchqbit
-Quantum bit and the usual gates in numeric forms straight from the Wikipedia.
+Quantum bit and the usual gates in torch tensors straight from the Wikipedia.
 ## apply
 Apply gate to a state
 

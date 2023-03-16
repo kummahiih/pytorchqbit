@@ -3,7 +3,7 @@
 
 
 """
-   Numeric representations of quantum bits and gates and tools to make simple qbit simulations
+   Torch tensor representations of quantum bits and gates and tools to make simple qbit simulations
 """
 
 
