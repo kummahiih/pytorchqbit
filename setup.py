@@ -11,7 +11,7 @@ with open('README.md', 'r') as readme_file:
 
 setup(
     name='pytorchqbit',
-    version='0.2.3',
+    version='0.0.1',
     description='Quantum bit and the usual gates in torch tensors straight from the Wikipedia',
     long_description=README,
     license="MIT",
