@@ -17,6 +17,7 @@ setup(
     license="MIT",
     author="Pauli Rikula",
     url='https://github.com/kummahiih/pytorchqbit',
+    long_description_content_type="text/markdown",
     packages=['pytorchqbit'],
     python_requires='~=3.10',
     install_requires=[
